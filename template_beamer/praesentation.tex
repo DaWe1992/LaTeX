@@ -1,0 +1,45 @@
+\documentclass[t,8pt]{beamer}
+\input{config_styles/usepackages}
+\input{config_styles/commands}
+
+% Select theme
+\usetheme{mystyle}
+
+% Credentials
+\title[Musterthema]{Musterthema}
+\author{Max Mustermann}
+\date{\today}
+\institute{Musteruni}
+
+% Number of levels in toc
+\dwDeepToc{false}
+
+% List of figures/tables
+\dwLofLot{false}
+
+\begin{document}
+
+\dwPrintTitle{images/sample}{images/logo_dhbw}
+\dwPrintToc{1.2}
+
+\dwSection{Introduction}
+
+% ================================================================
+\begin{dwHeaderFrame}{Detection of significant Peaks}
+	\begin{dwItemize}
+		\item This is a test-
+		\item \textbf{And another test:}
+	\end{dwItemize}
+
+	\dwAlertBox{$\boldsymbol{\Rightarrow}$ This is an alert box!}
+\end{dwHeaderFrame}
+
+% ================================================================
+
+\begin{dwFrame}
+	\dwHeader{Small header}
+
+	%\dwFramedFigure{\includegraphics[scale=0.45]{path/to/image}}{caption}{label}
+\end{dwFrame}
+
+\end{document}

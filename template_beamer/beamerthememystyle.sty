@@ -1,0 +1,299 @@
+% load packages
+\RequirePackage{tcolorbox}
+\RequirePackage{tikz}
+
+\tcbuselibrary{skins}
+% =============================================
+% =============================================
+
+% Adjust margin left and right
+\setbeamersize{text margin left=15pt,text margin right=15pt}
+
+% Define colors
+% =============================================
+\setbeamercolor{frametitle}{fg=black}
+\setbeamercolor{itemize item}{fg=black}
+\setbeamercolor{itemize subitem}{fg=black}
+\setbeamercolor{caption name}{fg=black!80!white}
+\setbeamercolor{section in toc}{fg=black}
+\setbeamercolor{subsection in toc}{fg=gray!20!black}
+
+% Define fonts and sizes
+% =============================================
+\setbeamerfont{frametitle}{series=\bf,size=\footnotesize}
+\setbeamerfont{caption name}{series=\bf}
+%\setbeamerfont{section in toc}{series=\bf,size=\large}
+%\setbeamerfont{subsection in toc}{series=\bf,size=\normalsize}
+%\setbeamerfont{subsubsection in toc}{series=\normalfont,size=\normalsize}
+\setbeamertemplate{itemize/enumerate subbody begin}{\normalsize}
+\setbeamertemplate{itemize/enumerate subsubbody begin}{\small}
+\usefonttheme[onlymath]{serif}
+
+% Table of contents
+% =============================================
+%\setbeamertemplate{section in toc}[sections numbered]
+
+%\makeatletter
+%\patchcmd{\beamer@sectionintoc}
+%	{\vfill}
+%	{\vskip2\itemsep}{}{}
+%\makeatother
+
+\makeatletter
+\def\beamer@endinputifotherversion#1{}
+\def\beamer@sectionintoc#1#2#3#4#5{{\vspace*{3mm}\large\textbf{#1~#2} \dotfill \large\textbf{#3} \par}}
+\def\beamer@subsectionintoc#1#2#3#4#5#6{{\normalsize ~~~~\textbf{#3} \dotfill \textbf{#4} \par}}
+\def\beamer@subsubsectionintoc#1#2#3#4#5#6#7{{\normalsize ~~~~~~~~#4 \dotfill #5 \par}}
+\makeatother
+
+% List of figures/List of tables
+% =============================================
+\makeatletter
+
+\AtEndDocument{%
+  	\clearpage
+  	\beamer@tempcount=\c@page\advance\beamer@tempcount by -1%
+  	\if@filesw
+  		\newwrite\tf@lof
+  		\immediate\openout\tf@lof\jobname.lof\relax
+  		\newwrite\tf@lot
+  		\immediate\openout\tf@lot\jobname.lot\relax
+  	\fi
+}
+
+\long\def\beamer@makecaption#1#2#3#4{%
+	\def\insertcaptionname{\csname#1name\endcsname}%
+ 	\def\insertcaptionnumber{\csname the#1\endcsname}%
+ 	\edef\insertframenumber{\theframenumber}%
+  	\ifthenelse{\equal{#3}{\empty}}{%  
+    		\def\insertlistcaption{#2}%
+  	}{%
+    		\def\insertlistcaption{#3}%
+  	}
+
+ 	\def\insertsource{#4}%
+  	\def\insertcaption{#2}%
+  	
+	\ifthenelse{\equal{#1}{figure}}{%  
+    		\addtocontents{lof}{\protect\listoffigureformat{\insertcaptionnumber}{\insertlistcaption}{\insertframenumber}					{\insertsource}}{}{}%
+  	}{}
+
+ 	\ifthenelse{\equal{#1}{table}}{%  
+    		\addtocontents{lot}{\protect\listoftableformat{\insertcaptionnumber}{\insertlistcaption}{\insertframenumber}}{}{}%
+  	}{}
+
+  	\nobreak\vskip\abovecaptionskip\nobreak
+  	\sbox\@tempboxa{\usebeamertemplate**{caption}}%
+
+  	\ifdim \wd\@tempboxa >\hsize
+  		\usebeamertemplate**{caption}\par
+  	\else
+  		\global \@minipagefalse
+  		\hb@xt@\hsize{\hfil\box\@tempboxa\hfil}%
+  	\fi
+  	\nobreak\vskip\belowcaptionskip\nobreak%
+}
+
+\def\listoffigureformat#1#2#3#4{%
+  	\makebox[2ex][l]{\textbf{#1:}}%
+  	\hspace{1ex}%
+  	\ifthenelse{\equal{#4}{\empty}}{}{#4}%
+  	\dotfill%
+  	\makebox[2ex][r]{#3}\par%
+}
+
+\def\listoffigures{%
+  	\setlength{\leftskip}{3ex}
+  	\setlength{\parindent}{-3ex}
+  	\@starttoc{lof}%
+}
+
+\def\listoftableformat#1#2#3{%
+	\makebox[2ex][l]{\textbf{#1:}}%
+	\hspace{1ex}#2\dotfill\makebox[2ex][r]{#3}\par}
+
+\def\listoftables{%
+	\setlength{\leftskip}{3ex}
+  	\setlength{\parindent}{-3ex}
+  	\@starttoc{lot}%
+}
+
+\long\def\@caption#1[#2]#3{
+	\par\nobreak
+  	\begingroup
+    	\@parboxrestore
+    
+	\if@minipage
+      		\@setminipage
+    	\fi
+    
+	\beamer@makecaption{#1}{\ignorespaces #3}{\ignorespaces #3}{\ignorespaces #2}\par\nobreak
+    	\endgroup
+}
+
+\makeatother
+
+% Define bullet points
+% =============================================
+\setbeamertemplate{itemize item}[circle]
+\setbeamertemplate{itemize subitem}{--}
+\setbeamertemplate{itemize subsubitem}{\textcolor{black}{$\triangleright$}}
+\setlength{\leftmargini}{3.5mm}
+\setlength{\leftmarginii}{3.5mm}
+\setlength{\leftmarginiii}{3.5mm}
+
+% Frametitle
+% =============================================
+\setbeamertemplate{frametitle}{%
+	\ifthenelse{\boolean{deeptoc}}{
+		\ifnum\insertframenumber=\insertsectionstartpage%
+			\vspace*{0.1mm}
+    			\begin{tcolorbox}[
+				skin=enhanced,
+      				boxrule=0.6mm,
+     		   		boxsep=0mm,
+     	   			lowerbox=ignored,
+        			colback=orange!60!red,
+        			colframe=black,
+        			borderline={0.5pt}{3pt}{black},
+				borderline={1pt}{2pt}{red}
+    			]
+        			\centering
+        			\Huge\textbf\insertsectionhead\par
+    		\end{tcolorbox}
+		\fi%
+	}{}
+	\ifnum\insertframenumber=\insertsubsectionstartpage%
+    		\vspace*{0.1mm}
+    		\begin{tcolorbox}[
+     		   	boxrule=0.4mm,
+     		   	boxsep=-0.5mm,
+     	   		lowerbox=ignored,
+     	   		colback=yellow!60!orange,
+        		colframe=black
+    		]
+        		\centering
+        		\huge\textbf\insertsubsectionhead\par
+   	 	\end{tcolorbox}
+	\fi%
+	\begin{tcolorbox}[
+    		boxrule=0.2mm,
+    		boxsep=0mm,
+    		lowerbox=ignored,
+    		colback=yellow,
+    		colframe=black
+	]
+    		\centering
+    		\large\insertframetitle
+	\end{tcolorbox}
+	\vspace{-4mm}
+}
+
+% Caption
+% Customize captions
+% =============================================
+\setbeamertemplate{caption}{%
+\begin{tcolorbox}[
+	colback=lightgray,
+	colframe=black,
+	width=.17\linewidth,
+	height=0.5cm,
+	boxrule=0.2mm,
+	boxsep=-1mm
+]
+	\textbf{\strut\insertcaptionname~%
+	\insertcaptionnumber%
+	\usebeamertemplate{caption label separator}}%
+\end{tcolorbox}%
+\space%
+\begin{tcolorbox}[
+	colback=lightgray,
+	colframe=black,
+	width=.82\linewidth,
+	height=0.5cm,
+	boxrule=0.2mm,
+	boxsep=-1mm
+]
+	\strut\insertcaption%
+\end{tcolorbox}%
+}
+
+% Header and Footer
+% =============================================
+% remove navigation symbols
+\setbeamertemplate{navigation symbols}{}
+
+% Header
+\setbeamertemplate{headline}{
+	\ifnum\insertsectionstartframe=\insertframenumber%
+     		\vskip-\headheight%
+	\else
+		\begin{beamercolorbox}[wd=\textwidth,ht=4mm,dp=1mm]{}
+			\hspace*{15pt} \Fheadline \hspace{15pt}
+		\end{beamercolorbox}
+		\centerline{\rule{\linewidth}{.2pt}}
+	\fi
+}
+
+\setbeamertemplate{footline}{%
+	\centerline{\rule{\linewidth}{.2pt}}
+	\begin{beamercolorbox}[wd=\textwidth,ht=2mm,dp=3mm]{}
+		\hspace*{15pt} \Ffootline \hspace{15pt}
+	\end{beamercolorbox}
+}
+
+\newcommand{\Fheadline}{
+	\ifthenelse{\boolean{deeptoc}}{
+		\insertsection\hfill\insertsubsection
+	}{
+		\hfill
+		\insertsection
+	}
+}
+
+\newcommand{\Ffootline}{
+	\textsc{\textrm{
+		\ifx\insertshorttitle\undefined
+			\inserttitle
+		\else
+			\insertshorttitle
+		\fi
+	}}
+	\hfill
+	\copyright\insertauthor~(\insertinstitute)\hfill\insertdate
+	\hfill
+	\insertframenumber
+}
+
+% Remove header line on first frame of section
+% =============================================
+\makeatletter
+	\newcount\beamer@sectionstartframe
+	\beamer@sectionstartframe=1
+	\apptocmd{\beamer@section}{\addtocontents{nav}{\protect\headcommand{%
+            \protect\beamer@sectionframes{\the\beamer@sectionstartframe}{\the\c@framenumber}}}
+	}{}{}
+	\apptocmd{\beamer@section}%
+	{\beamer@sectionstartframe=\c@framenumber\advance\beamer@sectionstartframe by1\relax}{}{}
+	\AtEndDocument{
+		\immediate\write\@auxout{\string\@writefile{nav}%
+        	{\noexpand\headcommand{\noexpand\beamer@sectionframes{\the\beamer@sectionstartframe}%
+		{\the\c@framenumber}}}}
+	}{}{}
+
+	\def\beamer@startframeofsection{1}
+	\def\beamer@endframeofsection{1}
+	\def\beamer@sectionframes#1#2{%
+    		\ifnum\c@framenumber<#1%
+    		\else%
+    			\ifnum\c@framenumber>#2%
+    			\else%
+    				\gdef\beamer@startframeofsection{#1}%
+    				\gdef\beamer@endframeofsection{#2}%
+    			\fi%
+    		\fi%
+	}
+
+	\newcommand\insertsectionstartframe{\beamer@startframeofsection}
+	\newcommand\insertsectionendframe{\beamer@endframeofsection}
+\makeatother
