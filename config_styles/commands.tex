@@ -27,7 +27,7 @@
 	innerrightmargin=6pt,
 	innertopmargin=6pt,
 	innerbottommargin=6pt
-]{mybox} 
+]{mybox}
 
 % Framed figure
 \newcommand{\dwFramedFigure}[3]{
@@ -38,7 +38,7 @@
   		\end{mybox}
   		\vspace{-4.5mm}
   		\caption{#2}
-  		\label{#3}    
+  		\label{#3}
 	\end{figure}
 	\vspace{-3mm}
 }
@@ -223,7 +223,7 @@
 			\node[blue!60] at (11.1,2.25) {\textbf{\insertauthor}};
 			\node[blue!60] at (11.1,1.75) {\textbf{\insertdate}};
 			\node[blue!60] at (11.1,1.25) {\textbf{\insertinstitute}};
-			
+
 			\node at (1.5,9) {\includegraphics[width=2cm,height=1cm]{#2}};
 			\node at (7.9,9) {
 				\begin{tcolorbox}[
@@ -271,7 +271,7 @@
 
 			\renewcommand{\baselinestretch}{#1}\normalsize
 				\tableofcontents
-				
+
 				\ifthenelse{\boolean{loflot}}{
 					\framebreak
 					\begin{tcolorbox}[
@@ -285,7 +285,7 @@
 						\huge\textbf{Figures and Tables}%
 					\end{tcolorbox}
 					\vspace{2mm}
-					
+
 					\large\textbf{List of Figures}\normalsize \\
 					\vspace*{1mm}
 					\listoffigures
@@ -381,16 +381,3 @@
 	\vspace*{2mm}
 	\TextField[multiline=true, width=\linewidth,height=#1]{}
 }
-
-% title graphic
-%\mode
-%<all>
-%{
-%\renewcommand\titlegraphic[2][]{%
-%	\edef\inserttitlegraphic{%
-%      	\ifx\relax#2\relax\else
-%	      		\noexpand\includegraphics[#1]{#2}%
-%      	\fi}%
-%  	}%
-%  	\titlegraphic{}
-%}
