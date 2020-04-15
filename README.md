@@ -1,0 +1,2 @@
+# LaTeX
+📈 LaTeX Beamer Template
